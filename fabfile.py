@@ -24,39 +24,19 @@ numerals = 3
 special = 3
 
 # Target Hosts
-env.hosts = ['server1', 'server2']
+env.hosts = ['dbpd06']
 
 # User List ['Full Name', 'Account Comment', 'UserID']
-users = [['First Last1', 'Comment', 'username1'],
-         ['First Last2', 'Comment', 'username2'],
-         ['First Last3', 'Comment', 'username3'],
-         ['First Last4', 'Comment', 'username4'],
-         ['First Last5', 'Comment', 'username5']]
+users = [
+         ['First Last5', 'Comment', 'username7']
+]
 
 # Group List (Comma Separated for multiple groups ie: group1,group2,group3)
 groups = 'group1,group2'
 
 
 def generatepw():
-    """ Generates a random password that meets the password criteria outlined
-    in the settings file:
-    :return: Random password that meets criteria
-    """
-    # Only allow visual friendly characters to minimize user frustration
-    allchars = string.ascii_letters + string.digits + '.!@#$%^&*'
-    allowchar = re.sub('[oOIl0]', '', allchars)
-    uppers = '.*[A-Z]' * uppercase
-    lowers = '.*[a-z]' * lowercase
-    numers = '.*[0-9]' * numerals
-    spchar = '.*[!@#$&*]' * special
-    pwlength = (uppercase + lowercase + numerals + special)
-    random.seed = (os.urandom(1024))
-    strongpw = re.compile(r'^(?=%s)(?=%s)(?=%s)(?=%s).{%s}$'
-                          % (uppers, lowers, numers, spchar, pwlength))
-    while True:
-        usrpw = ''.join(random.choice(allowchar) for i in range(pwlength))
-        if strongpw.match(usrpw):
-            return usrpw
+    return "user7name"
 
 
 @task
@@ -97,7 +77,7 @@ def adduser(gp=True):
             sudo('usermod --password %s %s' % (crypted_password,
                                                i[2]), pty=True)
             # Modify the following rules to your needs: (Read chage manpage)
-            sudo("chage -E -1 -W 11 -m 7 -M 42 -I 30 -d now-44days %s" % i[2])
+            sudo("chage -E -1 -W 14 -m 0 -M -1 -I -1 %s" % i[2])
     print("\nUsers for %s\n" % env.host)
     for i in users:  # Print the list of Users with credentials
         print("%s" % i[0])
